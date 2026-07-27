@@ -1,0 +1,327 @@
+/* ===========================
+   Google Font
+=========================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* ===========================
+   Reset
+=========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#f5f7fb;
+    color:#333;
+}
+
+/* ===========================
+   Hero
+=========================== */
+
+.hero{
+    width:90%;
+    margin:40px auto;
+    text-align:center;
+}
+
+.hero h1{
+    font-size:3rem;
+    color:#2563eb;
+    margin-bottom:15px;
+}
+
+.hero p{
+    font-size:18px;
+    color:#666;
+}
+
+/* ===========================
+   Dashboard Cards
+=========================== */
+
+.dashboard{
+    width:90%;
+    margin:40px auto;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+}
+
+.card{
+    background:#fff;
+    padding:30px;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+}
+
+.card i{
+    font-size:45px;
+    color:#2563eb;
+    margin-bottom:15px;
+}
+
+.card h2{
+    font-size:30px;
+    margin-bottom:10px;
+}
+
+.card p{
+    color:#666;
+}
+
+/* ===========================
+   Upload Section
+=========================== */
+
+.upload-section{
+    width:90%;
+    margin:40px auto;
+    background:#fff;
+    border-radius:15px;
+    padding:35px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.upload-section h2{
+    color:#2563eb;
+    margin-bottom:25px;
+}
+
+.upload-form{
+    display:flex;
+    flex-wrap:wrap;
+    gap:20px;
+    align-items:flex-end;
+}
+
+.input-group{
+    flex:1;
+    min-width:250px;
+    display:flex;
+    flex-direction:column;
+}
+
+.input-group label{
+    margin-bottom:8px;
+    font-weight:600;
+}
+
+.input-group input[type="text"]{
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    font-size:16px;
+}
+
+.input-group input[type="text"]:focus{
+    outline:none;
+    border-color:#2563eb;
+}
+
+.input-group input[type="file"]{
+    border:2px dashed #2563eb;
+    padding:12px;
+    border-radius:10px;
+    cursor:pointer;
+    background:#f8fbff;
+}
+
+.upload-btn{
+    background:#2563eb;
+    color:#fff;
+    border:none;
+    padding:14px 30px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:16px;
+    transition:.3s;
+}
+
+.upload-btn:hover{
+    background:#1d4ed8;
+    transform:translateY(-3px);
+}
+
+/* ===========================
+   Video List & History
+=========================== */
+
+.video-list,
+.history{
+    width:90%;
+    margin:40px auto;
+    background:#fff;
+    border-radius:15px;
+    padding:30px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.video-list h2,
+.history h2{
+    color:#2563eb;
+    margin-bottom:20px;
+}
+
+/* ===========================
+   Table
+=========================== */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+table th{
+    background:#2563eb;
+    color:#fff;
+    padding:15px;
+}
+
+table td{
+    padding:15px;
+    text-align:center;
+    border-bottom:1px solid #ddd;
+}
+
+table tr:hover{
+    background:#f8f8f8;
+}
+
+table video{
+    width:170px;
+    border-radius:10px;
+}
+
+/* ===========================
+   Edit & Delete Links
+=========================== */
+
+table a{
+    text-decoration:none;
+    margin:0 8px;
+    font-weight:600;
+}
+
+table a:first-child{
+    color:#16a34a;
+}
+
+table a:last-child{
+    color:#dc2626;
+}
+
+table a:hover{
+    opacity:.8;
+}
+
+/* ===========================
+   Footer
+=========================== */
+
+footer{
+    margin-top:50px;
+    background:#2563eb;
+    color:#fff;
+    text-align:center;
+    padding:20px;
+}
+
+/* ===========================
+   Animation
+=========================== */
+
+.hero,
+.dashboard,
+.upload-section,
+.video-list,
+.history{
+    animation:fadeUp .8s ease;
+}
+
+@keyframes fadeUp{
+
+    from{
+        opacity:0;
+        transform:translateY(40px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+/* ===========================
+   Responsive
+=========================== */
+
+@media(max-width:992px){
+
+.cards{
+    grid-template-columns:repeat(2,1fr);
+}
+
+}
+
+@media(max-width:768px){
+
+.hero h1{
+    font-size:2.2rem;
+}
+
+.upload-form{
+    flex-direction:column;
+}
+
+.upload-btn{
+    width:100%;
+}
+
+.cards{
+    grid-template-columns:1fr;
+}
+
+table{
+    display:block;
+    overflow-x:auto;
+}
+
+}
+
+@media(max-width:480px){
+
+.hero h1{
+    font-size:1.8rem;
+}
+
+.upload-section,
+.video-list,
+.history{
+    padding:20px;
+}
+
+table video{
+    width:120px;
+}
+
+}

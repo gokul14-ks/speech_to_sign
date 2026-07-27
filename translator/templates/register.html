@@ -1,0 +1,145 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech2Sign | Register</title>
+
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="register-box">
+
+        <div class="logo">
+            <i class="fa-solid fa-hands"></i>
+            <h2>Speech2Sign</h2>
+            <p>Create your account</p>
+        </div>
+
+        <form action="{% url 'register' %}" method="POST">
+
+            {% csrf_token %}
+
+            <div class="row">
+
+                <div class="input-box">
+                    <label>First Name</label>
+
+                    <div class="input-field">
+                        <i class="fa-solid fa-user"></i>
+
+                        <input
+                            type="text"
+                            name="first_name"
+                            placeholder="Enter first name"
+                            required>
+                    </div>
+                </div>
+
+                <div class="input-box">
+                    <label>Last Name</label>
+
+                    <div class="input-field">
+                        <i class="fa-solid fa-user"></i>
+
+                        <input
+                            type="text"
+                            name="last_name"
+                            placeholder="Enter last name"
+                            required>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="input-box">
+
+                <label>Email Address</label>
+
+                <div class="input-field">
+
+                    <i class="fa-solid fa-envelope"></i>
+
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Enter your email"
+                        required>
+
+                </div>
+
+            </div>
+
+            <div class="input-box">
+
+                <label>Password</label>
+
+                <div class="input-field">
+
+                    <i class="fa-solid fa-lock"></i>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter password"
+                        required>
+
+                    <i class="fa-solid fa-eye toggle-password"></i>
+
+                </div>
+
+            </div>
+
+            <div class="input-box">
+
+                <label>Confirm Password</label>
+
+                <div class="input-field">
+
+                    <i class="fa-solid fa-lock"></i>
+
+                    <input
+                        type="password"
+                        id="confirm_password"
+                        name="confirm_password"
+                        placeholder="Confirm password"
+                        required>
+
+                </div>
+
+            </div>
+
+            <input type="hidden" name="role" value="User">
+
+            <button type="submit" class="register-btn">
+                <i class="fa-solid fa-user-plus"></i>
+                Register
+            </button>
+
+        </form>
+
+        <div class="login-link">
+
+            Already have an account?
+
+            <a href="{% url 'login' %}">Login</a>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="{% static 'js/register.js' %}"></script>
+
+</body>
+</html>

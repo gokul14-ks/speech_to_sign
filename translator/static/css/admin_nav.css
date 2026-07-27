@@ -1,0 +1,135 @@
+/* Header */
+
+header{
+    width:100%;
+    background:linear-gradient(135deg,#2563eb,#1d4ed8);
+    position:sticky;
+    top:0;
+    z-index:1000;
+    box-shadow:0 8px 20px rgba(0,0,0,.15);
+}
+
+/* Navbar */
+
+.navbar{
+    width:90%;
+    max-width:1300px;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 0;
+}
+
+/* Logo */
+
+.logo{
+    color:#fff;
+    font-size:1.8rem;
+    font-weight:700;
+}
+
+.logo i{
+    margin-right:10px;
+    color:#ffd54f;
+}
+
+/* Menu */
+
+.navbar ul{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    list-style:none;
+}
+
+/* Buttons */
+
+.nav-btn,
+.logout-btn{
+
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    padding:12px 22px;
+
+    border-radius:50px;
+
+    text-decoration:none;
+
+    font-weight:600;
+
+    transition:0.3s;
+
+}
+
+.nav-btn{
+
+    background:rgba(255,255,255,.15);
+    color:#fff;
+
+}
+
+.nav-btn:hover{
+
+    background:#fff;
+    color:#2563eb;
+    transform:translateY(-3px);
+
+}
+
+.nav-btn.active{
+
+    background:#fff;
+    color:#2563eb;
+
+}
+
+.logout-btn{
+
+    background:#ef4444;
+    color:#fff;
+
+}
+
+.logout-btn:hover{
+
+    background:#dc2626;
+    transform:translateY(-3px);
+
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+.navbar{
+
+    flex-direction:column;
+    gap:20px;
+
+}
+
+.navbar ul{
+
+    width:100%;
+    flex-direction:column;
+
+}
+
+.navbar ul li{
+
+    width:100%;
+
+}
+
+.nav-btn,
+.logout-btn{
+
+    width:100%;
+    justify-content:center;
+
+}
+
+}

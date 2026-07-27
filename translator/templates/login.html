@@ -1,0 +1,178 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Speech to Sign Converter</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <i class="fa-solid fa-hands"></i>
+                <span>Speech2Sign</span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main -->
+    <main>
+
+        <section class="login-section">
+
+            <div class="login-container">
+
+                <div class="left-panel">
+
+                    <h1>Welcome Back</h1>
+
+                    <p>
+                        Convert speech into sign language quickly and
+                        efficiently. Login to continue your journey.
+                    </p>
+
+                    <img src="{% static 'images/Login.jpeg' %}" alt="Login Image">
+
+                </div>
+
+                <div class="right-panel">
+
+                    <h2>Login</h2>
+
+                    <p class="subtitle">
+                        Sign in to your account
+                    </p>
+
+                    <form action="" method="POST" id="loginForm">
+
+                        {% csrf_token %}
+
+                        <!-- Email -->
+
+                        <div class="input-group">
+
+                            <label for="email">
+                                Email Address
+                            </label>
+
+                            <div class="input-box">
+
+                                <i class="fa-solid fa-envelope"></i>
+
+                                <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="Enter your email"
+                                required>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Password -->
+
+                        <div class="input-group">
+
+                            <label for="password">
+                                Password
+                            </label>
+
+                            <div class="input-box">
+
+                                <i class="fa-solid fa-lock"></i>
+
+                                <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Enter your password"
+                                required>
+
+                                <button
+                                type="button"
+                                id="togglePassword">
+
+                                    <i class="fa-solid fa-eye"></i>
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Options -->
+
+                        <div class="options">
+
+                            <label class="remember">
+
+                                <input type="checkbox">
+
+                                Remember Me
+
+                            </label>
+
+                            <a href="#">
+                                Forgot Password?
+                            </a>
+
+                        </div>
+
+                        <!-- Login Button -->
+                       
+                        <button
+                        type="submit"
+                        class="login-btn">
+
+                            Login
+
+                        </button>
+
+                    </form>
+                    <p class="register-text">
+
+                        Don't have an account?
+
+                        <a href="{% url 'register' %}">
+                            Register
+                        </a>
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+
+    <footer>
+
+        <p>
+
+            © 2026 Speech to Sign Language Converter.
+            All Rights Reserved.
+
+        </p>
+
+    </footer>
+
+    <script src="{% static 'js/login.js' %}"></script>
+
+</body>
+</html>

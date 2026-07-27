@@ -1,0 +1,118 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+{% include "include/navbar.html" %}
+
+<!-- CSRF Token -->
+<form style="display: none;">
+    {% csrf_token %}
+</form>
+
+
+<!-- ============================== -->
+<!-- Hero Section -->
+<!-- ============================== -->
+
+<section class="hero">
+
+    <h1>{{ greeting }} 👋</h1>
+
+    <p>
+        Convert your speech into sign language instantly.
+    </p>
+
+    <div class="buttons">
+
+        <button id="record">
+
+            <i class="fa-solid fa-microphone"></i>
+
+            Start Recording
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ============================== -->
+<!-- Recognized Speech -->
+<!-- ============================== -->
+
+<section class="speech-box">
+
+    <h2>Recognized Speech</h2>
+
+    <p id="speech">
+        Your speech will appear here...
+    </p>
+
+</section>
+
+
+<!-- ============================== -->
+<!-- Sign Language Output -->
+<!-- ============================== -->
+
+<section class="output">
+
+    <h2>Sign Language Output</h2>
+
+    <div class="videos" id="videos">
+
+        <p id="sign-message">
+            Your sign language translation will appear here...
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ============================== -->
+<!-- Recent History -->
+<!-- ============================== -->
+
+<section class="history">
+
+    <h2>Recent History</h2>
+
+    <table>
+
+        <tr>
+            <th>Speech</th>
+            <th>Date</th>
+        </tr>
+
+        <tr>
+            <td>Hello Everyone</td>
+            <td>Today</td>
+        </tr>
+
+        <tr>
+            <td>Thank You</td>
+            <td>Yesterday</td>
+        </tr>
+
+    </table>
+
+</section>
+
+
+<!-- ============================== -->
+<!-- Footer -->
+<!-- ============================== -->
+
+<footer>
+
+    <p>© 2026 Speech2Sign</p>
+
+</footer>
+
+
+<script src="{% static 'js/home.js' %}"></script>

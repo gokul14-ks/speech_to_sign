@@ -1,0 +1,243 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech2Sign | Admin Dashboard</title>
+
+    <link rel="stylesheet" href="{% static 'css/adminhome.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+
+<body>
+
+{% include "include/admin_nav.html" %}
+
+<main>
+
+    <!-- Hero Section -->
+    <section class="hero">
+
+        <h1>{{ greeting }} 👋</h1>
+
+        <p>Welcome to the Speech2Sign Admin Dashboard</p>
+
+    </section>
+
+    <!-- Dashboard Cards -->
+    <section class="dashboard">
+
+        <div class="cards">
+
+            <div class="card">
+                <i class="fa-solid fa-users"></i>
+                <h2>{{ total_users }}</h2>
+                <p>Total Users</p>
+            </div>
+
+            <div class="card">
+                <i class="fa-solid fa-video"></i>
+                <h2>{{ total_videos }}</h2>
+                <p>Total Videos</p>
+            </div>
+
+            <div class="card">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <h2>{{ total_history }}</h2>
+                <p>Translations</p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Upload Video -->
+    <section class="upload-section">
+
+        <h2><i class="fa-solid fa-video"></i> Add Sign Language Video</h2>
+
+        <form method="POST" enctype="multipart/form-data" class="upload-form">
+
+            {% csrf_token %}
+
+            <div class="input-group">
+                <label>Word / Number</label>
+                <input
+                    type="text"
+                    name="word"
+                    placeholder="Enter word or number"
+                    required>
+            </div>
+
+            <div class="input-group">
+                <label>Select Video</label>
+                <input
+                    type="file"
+                    name="video"
+                    accept="video/*"
+                    required>
+            </div>
+
+            <button type="submit" class="upload-btn">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+                Upload Video
+            </button>
+
+        </form>
+
+    </section>
+
+    <!-- Video List -->
+    <section class="video-list">
+
+        <h2>Available Videos</h2>
+
+        <table>
+
+            <thead>
+
+            <tr>
+
+                <th>Word / Number</th>
+
+                <th>Preview</th>
+
+                <th>Actions</th>
+
+            </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for video in videos %}
+
+            <tr>
+
+                <td>{{ video.word }}</td>
+
+                <td>
+
+                    <video width="180" controls>
+
+                        <source src="{{ video.video.url }}" type="video/mp4">
+
+                    </video>
+
+                </td>
+
+                <td>
+
+                    <a href="{% url 'edit_video' video.id %}">
+
+                        <i class="fa-solid fa-pen-to-square"></i>
+
+                        Edit
+
+                    </a>
+
+                    &nbsp;&nbsp;
+
+                    <a href="{% url 'delete_video' video.id %}"
+                       onclick="return confirm('Delete this video?')">
+
+                        <i class="fa-solid fa-trash"></i>
+
+                        Delete
+
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+
+                <td colspan="3" style="text-align:center;">
+
+                    No videos uploaded.
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+    <!-- Translation History -->
+    <section class="history">
+
+        <h2>Recent Translation History</h2>
+
+        <table>
+
+            <thead>
+
+            <tr>
+
+                <th>User</th>
+
+                <th>Speech</th>
+
+                <th>Date</th>
+
+            </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for item in history %}
+
+            <tr>
+
+                <td>{{ item.user.first_name }}</td>
+
+                <td>{{ item.speech_text }}</td>
+
+                <td>{{ item.created_at }}</td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+
+                <td colspan="3" style="text-align:center;">
+
+                    No translation history available.
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+</main>
+
+<footer>
+
+    <p>© 2026 Speech2Sign</p>
+
+</footer>
+
+<script src="{% static 'js/adminhome.js' %}"></script>
+
+</body>
+</html>

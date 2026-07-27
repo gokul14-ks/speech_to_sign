@@ -1,0 +1,113 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | Speech2Sign</title>
+
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'css/admin_nav.css' %}"> -->
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+
+<body>
+
+{% if user.role == "Admin" %}
+    {% include "include/admin_nav.html" %}
+{% else %}
+    {% include "include/navbar.html" %}
+{% endif %}
+
+<div class="profile-container">
+
+    <div class="profile-card">
+
+        <div class="profile-image">
+
+            <i class="fa-solid fa-user"></i>
+
+        </div>
+
+        <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+
+        <p class="role">{{ user.role }}</p>
+
+        <div class="profile-details">
+
+            <div class="detail">
+
+                <i class="fa-solid fa-user"></i>
+
+                <span>First Name</span>
+
+                <strong>{{ user.first_name }}</strong>
+
+            </div>
+
+            <div class="detail">
+
+                <i class="fa-solid fa-user"></i>
+
+                <span>Last Name</span>
+
+                <strong>{{ user.last_name }}</strong>
+
+            </div>
+
+            <div class="detail">
+
+                <i class="fa-solid fa-envelope"></i>
+
+                <span>Email</span>
+
+                <strong>{{ user.email }}</strong>
+
+            </div>
+
+            <div class="detail">
+
+                <i class="fa-solid fa-shield-halved"></i>
+
+                <span>Role</span>
+
+                <strong>{{ user.role }}</strong>
+
+            </div>
+
+            <div class="detail">
+
+                <i class="fa-solid fa-calendar"></i>
+
+                <span>Joined</span>
+
+                <strong>{{ user.created_at|date:"d M Y" }}</strong>
+
+            </div>
+
+        </div>
+
+        <div class="buttons">
+
+            <button class="edit-btn">
+                <i class="fa-solid fa-pen"></i>
+                Edit Profile
+            </button>
+
+            <button class="password-btn">
+                <i class="fa-solid fa-key"></i>
+                Change Password
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="{% static 'js/profile.js' %}"></script>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Django
+db.sqlite3
+
+# Audio files
+*.m4a
+*.mp3
+*.wav
+*.webm
+
+# Media files
+media/
+
+# VS Code
+.vscode/
+
+# Other
+.DS_Store

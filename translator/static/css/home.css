@@ -1,0 +1,368 @@
+/* ===========================
+Google Font
+=========================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+
+/* ===========================
+Reset
+=========================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: #f5f7fb;
+    color: #333;
+}
+
+
+/* ===========================
+Hero
+=========================== */
+
+.hero {
+    width: 90%;
+    margin: 50px auto;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    color: #2563eb;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 40px;
+}
+
+
+/* ===========================
+Buttons
+=========================== */
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.buttons button {
+    padding: 15px 35px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: .3s;
+    color: #fff;
+}
+
+#record {
+    background: #2563eb;
+}
+
+#upload {
+    background: #10b981;
+}
+
+.buttons button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .15);
+}
+
+
+/* ===========================
+Speech / Output / History
+=========================== */
+
+.speech-box,
+.output,
+.history {
+    width: 90%;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, .08);
+}
+
+.speech-box h2,
+.output h2,
+.history h2 {
+    color: #2563eb;
+    margin-bottom: 20px;
+}
+
+
+/* ===========================
+Recognized Speech
+=========================== */
+
+#speech {
+    min-height: 60px;
+    color: #555;
+    line-height: 1.8;
+}
+
+
+/* ===========================
+Videos
+=========================== */
+
+.videos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+
+/* ===========================
+Main Sign Video
+=========================== */
+
+#signVideoPlayer {
+    width: 80%;
+    max-width: 700px;
+    border-radius: 15px;
+    background: #000;
+    display: block;
+    margin: 10px auto;
+}
+
+
+/* ===========================
+Current Sign Word
+=========================== */
+
+#currentSignWord {
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    font-size: 20px;
+    font-weight: 600;
+
+    color: #2563eb;
+
+    text-align: center;
+}
+
+
+/* ===========================
+Replay Button
+=========================== */
+
+#replaySign {
+    display: block;
+
+    margin: 20px auto;
+
+    padding: 12px 25px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #2563eb;
+    color: white;
+
+    font-size: 16px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition: .3s;
+}
+
+#replaySign:hover {
+    transform: translateY(-3px);
+
+    box-shadow: 0 8px 15px rgba(0, 0, 0, .15);
+}
+
+
+/* ===========================
+Old Cards
+=========================== */
+
+.card {
+    background: #fafafa;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    transition: .3s;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+}
+
+.card video {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.card p {
+    margin-top: 15px;
+    font-weight: 600;
+}
+
+
+/* ===========================
+Table
+=========================== */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th {
+    background: #2563eb;
+    color: #fff;
+    padding: 15px;
+}
+
+table td {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+table tr:hover {
+    background: #f8f8f8;
+}
+
+
+/* ===========================
+Footer
+=========================== */
+
+footer {
+    margin-top: 50px;
+    background: #2563eb;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+}
+
+
+/* ===========================
+Animation
+=========================== */
+
+.hero,
+.speech-box,
+.output,
+.history {
+    animation: fadeUp .8s ease;
+}
+
+@keyframes fadeUp {
+
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* ===========================
+Responsive
+=========================== */
+
+@media (max-width: 992px) {
+
+    .navbar {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .navbar ul {
+        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    #signVideoPlayer {
+        width: 90%;
+    }
+
+}
+
+
+/* ===========================
+Tablet
+=========================== */
+
+@media (max-width: 768px) {
+
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+
+    .buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .buttons button {
+        width: 100%;
+    }
+
+    #signVideoPlayer {
+        width: 100%;
+    }
+
+}
+
+
+/* ===========================
+Mobile
+=========================== */
+
+@media (max-width: 576px) {
+
+    .navbar ul {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .speech-box,
+    .output,
+    .history {
+        width: 95%;
+        padding: 20px;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    #signVideoPlayer {
+        width: 100%;
+    }
+
+    #replaySign {
+        width: 100%;
+    }
+
+}
