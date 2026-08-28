@@ -4,6 +4,7 @@ from .models import *
 from datetime import datetime
 import whisper
 import os
+import requests
 # Create your views here.
 def index(request):
     return HttpResponse("Welcome to Speech to Sign Language Converter")
@@ -177,6 +178,47 @@ def whisper_test(request):
     text = result["text"]
 
     return HttpResponse(text)
+def process_with_ollama(text):
+
+    url = "http://127.0.0.1:11434/api/generate"
+
+    prompt = f"""
+You are part of a Speech-to-Indian-Sign-Language system.
+
+The user said:
+"{text}"
+
+Extract the important words that should be searched in a sign language video database.
+
+Rules:
+- Return only important words.
+- Remove unnecessary words such as: the, a, an, is, am, are, was, were, to, of, can, could, please, I, you.
+- Keep important nouns and verbs.
+- Do not explain anything.
+- Return only a comma-separated list.
+
+Example:
+Input: I want to go to the hospital
+Output: want, go, hospital
+"""
+
+    response = requests.post(
+        url,
+        json={
+            "model": "phi3:mini",
+            "prompt": prompt,
+            "stream": False
+        },
+        timeout=60
+    )
+
+    if response.status_code == 200:
+
+        result = response.json()
+
+        return result.get("response", "").strip()
+
+    return ""
 def whisper_view(request):
 
     if request.method != "POST":
@@ -201,12 +243,17 @@ def whisper_view(request):
     try:
 
         # ==============================
-        # Whisper
+        # Whisper Speech Recognition
         # ==============================
 
         model = whisper.load_model("base")
 
-        result = model.transcribe(audio_path)
+        result = model.transcribe(
+            audio_path,
+            language="en",
+            task="transcribe",
+            fp16=False
+        )
 
         text = result["text"].strip()
 
@@ -214,18 +261,36 @@ def whisper_view(request):
 
 
         # ==============================
-        # Find Sign Videos
+        # Ollama Text Processing
         # ==============================
 
-        words = text.lower().split()
+        ollama_output = process_with_ollama(text)
+
+        print("Ollama output:", ollama_output)
+
+
+        # ==============================
+        # Convert Ollama Output to Words
+        # ==============================
+
+        words = [
+            word.strip().lower()
+            for word in ollama_output.split(",")
+            if word.strip()
+        ]
+
+        print("Processed words:", words)
+
+
+        # ==============================
+        # Find Sign Videos
+        # ==============================
 
         sign_videos = []
         unknown_words = []
 
-
         for word in words:
 
-            # Remove basic punctuation
             clean_word = word.strip(".,!?;:")
 
             try:
@@ -256,6 +321,8 @@ def whisper_view(request):
 
             "text": text,
 
+            "processed_words": words,
+
             "sign_videos": sign_videos,
 
             "unknown_words": unknown_words
@@ -265,7 +332,7 @@ def whisper_view(request):
 
     except Exception as e:
 
-        print("Whisper error:", str(e))
+        print("Whisper/Ollama error:", str(e))
 
         return JsonResponse({
             "error": str(e)
