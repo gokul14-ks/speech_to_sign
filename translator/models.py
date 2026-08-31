@@ -29,6 +29,7 @@ class SignVideo(models.Model):
 class TranslationHistory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     speech_text = models.TextField()
+    matched_words = models.TextField(blank=True, default="")
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

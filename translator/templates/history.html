@@ -1,0 +1,244 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translation History | Speech2Sign</title>
+
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <style>
+        .history-page {
+            width: 90%;
+            max-width: 900px;
+            margin: 50px auto;
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            color: #2563eb;
+        }
+
+        .page-header i {
+            font-size: 1.8rem;
+            color: #2563eb;
+        }
+
+        .history-card {
+            background: #fff;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+        }
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .history-table th {
+            text-align: left;
+            padding: 12px 16px;
+            background: #f0f4ff;
+            color: #1e40af;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 2px solid #dbeafe;
+        }
+
+        .history-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #f3f4f6;
+            vertical-align: top;
+            font-size: 14px;
+            color: #374151;
+        }
+
+        .history-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .history-table tr:hover td {
+            background: #f9fafb;
+        }
+
+        .speech-text-col {
+            font-weight: 500;
+            color: #111827;
+        }
+
+        .matched-words-col {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .word-chip {
+            background: #dbeafe;
+            color: #1d4ed8;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .no-match {
+            color: #9ca3af;
+            font-style: italic;
+            font-size: 13px;
+        }
+
+        .date-col {
+            color: #6b7280;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        .empty-history {
+            text-align: center;
+            padding: 60px 20px;
+            color: #9ca3af;
+        }
+
+        .empty-history i {
+            font-size: 3rem;
+            color: #d1d5db;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .empty-history p {
+            font-size: 16px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 22px;
+            background: #2563eb;
+            color: #fff;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background 0.2s;
+            margin-bottom: 28px;
+        }
+
+        .back-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .history-count {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+{% if user.role == "Admin" %}
+    {% include "include/admin_nav.html" %}
+{% else %}
+    {% include "include/navbar.html" %}
+{% endif %}
+
+<div class="history-page">
+
+    <a href="{% if user.role == 'Admin' %}{% url 'admin_home' %}{% else %}{% url 'user_home' %}{% endif %}" class="back-btn">
+        <i class="fa-solid fa-arrow-left"></i>
+        Back to Dashboard
+    </a>
+
+    <div class="page-header">
+        <i class="fa-solid fa-clock-rotate-left"></i>
+        <h1>My Translation History</h1>
+    </div>
+
+    <p class="history-count">
+        Showing {{ history|length }} recent translation{% if history|length != 1 %}s{% endif %}.
+    </p>
+
+    <div class="history-card">
+
+        {% if history %}
+
+        <table class="history-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Recognized Speech</th>
+                    <th>Matched Signs</th>
+                    <th>Date &amp; Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in history %}
+                <tr>
+                    <td style="color:#9ca3af;">{{ forloop.counter }}</td>
+
+                    <td class="speech-text-col">
+                        "{{ item.speech_text }}"
+                    </td>
+
+                    <td>
+                        {% if item.matched_words %}
+                            <div class="matched-words-col">
+                                {% for w in item.matched_words.split|slice:":10" %}
+                                    {% if w != "," %}
+                                    <span class="word-chip">{{ w|cut:"," }}</span>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <span class="no-match">No signs matched</span>
+                        {% endif %}
+                    </td>
+
+                    <td class="date-col">
+                        {{ item.created_at|date:"d M Y" }}<br>
+                        <span style="color:#9ca3af;">{{ item.created_at|time:"h:i A" }}</span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% else %}
+
+        <div class="empty-history">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            <p>No translation history yet.</p>
+            <p style="font-size:14px;margin-top:8px;">
+                Start translating speech to sign language and your history will appear here.
+            </p>
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+<footer>
+    <p>© 2026 Speech2Sign</p>
+</footer>
+
+</body>
+</html>
