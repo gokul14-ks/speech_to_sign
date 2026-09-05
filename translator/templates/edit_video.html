@@ -1,0 +1,275 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech2Sign | Edit Sign Video</title>
+
+    <link rel="stylesheet" href="{% static 'css/adminhome.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <style>
+        .edit-container {
+            max-width: 650px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .edit-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.10);
+        }
+
+        .edit-card h2 {
+            font-size: 1.6rem;
+            color: #1e40af;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .edit-card p.subtitle {
+            color: #6b7280;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .current-video-preview {
+            margin-bottom: 28px;
+            background: #f5f7fb;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .current-video-preview h4 {
+            font-size: 14px;
+            color: #374151;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .current-video-preview video {
+            width: 100%;
+            border-radius: 8px;
+            max-height: 220px;
+            object-fit: cover;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 14px;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+
+        .input-group input[type="text"],
+        .input-group input[type="file"] {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 15px;
+            color: #1f2937;
+            transition: border-color 0.2s;
+            background: #f9fafb;
+        }
+
+        .input-group input[type="text"]:focus {
+            outline: none;
+            border-color: #2563eb;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+        }
+
+        .input-group .hint {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-top: 5px;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 14px;
+            margin-top: 32px;
+        }
+
+        .save-btn {
+            flex: 1;
+            padding: 14px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
+        }
+
+        .cancel-btn {
+            flex: 1;
+            padding: 14px;
+            background: #f3f4f6;
+            color: #374151;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+
+        .cancel-btn:hover {
+            background: #e5e7eb;
+        }
+
+        .word-badge {
+            display: inline-block;
+            background: #dbeafe;
+            color: #1d4ed8;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+{% include "include/admin_nav.html" %}
+
+<main>
+
+    <div class="edit-container">
+
+        <div class="edit-card">
+
+            <h2>
+                <i class="fa-solid fa-pen-to-square"></i>
+                Edit Sign Video
+                <span class="word-badge">{{ video.word }}</span>
+            </h2>
+
+            <p class="subtitle">
+                Update the word label or replace the sign language video.
+                Leave the video field empty to keep the current video.
+            </p>
+
+            <!-- Current Video Preview -->
+            <div class="current-video-preview">
+                <h4><i class="fa-solid fa-video"></i> Current Video</h4>
+                <video controls>
+                    <source src="{{ video.video.url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            <!-- Edit Form -->
+            <form method="POST" enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                <!-- Word -->
+                <div class="input-group">
+                    <label for="word">
+                        <i class="fa-solid fa-tag"></i>
+                        Word / Number
+                    </label>
+                    <input
+                        type="text"
+                        id="word"
+                        name="word"
+                        value="{{ video.word }}"
+                        placeholder="Enter word or number"
+                        required>
+                    <span class="hint">This is the word matched against recognized speech.</span>
+                </div>
+
+                <!-- Video File -->
+                <div class="input-group">
+                    <label for="video_file">
+                        <i class="fa-solid fa-film"></i>
+                        Replace Video (optional)
+                    </label>
+                    <input
+                        type="file"
+                        id="video_file"
+                        name="video"
+                        accept="video/*">
+                    <span class="hint">Leave empty to keep the current video file.</span>
+                </div>
+
+                <!-- Buttons -->
+                <div class="btn-row">
+
+                    <button type="submit" class="save-btn">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Save Changes
+                    </button>
+
+                    <a href="{% url 'admin_home' %}" class="cancel-btn">
+                        <i class="fa-solid fa-xmark"></i>
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</main>
+
+<footer>
+    <p>© 2026 Speech2Sign</p>
+</footer>
+
+<script>
+    // Preview selected replacement video before upload
+    const videoInput = document.getElementById("video_file");
+    if (videoInput) {
+        videoInput.addEventListener("change", function () {
+            if (this.files.length > 0) {
+                const preview = document.querySelector(".current-video-preview video");
+                const url = URL.createObjectURL(this.files[0]);
+                preview.src = url;
+                preview.load();
+                const heading = document.querySelector(".current-video-preview h4");
+                heading.innerHTML = '<i class="fa-solid fa-video"></i> New Video Preview';
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
