@@ -1,9 +1,168 @@
 {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech2Sign | Dashboard</title>
 
-<link rel="stylesheet" href="{% static 'css/home.css' %}">
-<link rel="stylesheet" href="{% static 'css/navbar.css' %}">
-<link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <style>
+        /* ---- Processed Words Row ---- */
+        #processedWordsSection {
+            width: 90%;
+            margin: 0 auto 20px;
+            display: none;
+        }
+
+        #processedWordsSection h3 {
+            font-size: 15px;
+            color: #374151;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .word-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .word-chip-matched {
+            background: #dbeafe;
+            color: #1d4ed8;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .word-chip-unknown {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* ---- Video Player ---- */
+        #videoPlayerWrap {
+            position: relative;
+        }
+
+        #signVideoPlayer {
+            width: 100%;
+            border-radius: 12px;
+            background: #000;
+            max-height: 340px;
+        }
+
+        #currentSignWord {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1d4ed8;
+            margin: 14px 0 8px;
+            text-align: center;
+        }
+
+        /* ---- Navigation Buttons ---- */
+        .video-nav {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .video-nav button {
+            padding: 10px 22px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        #prevVideoBtn {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        #nextVideoBtn {
+            background: #2563eb;
+            color: #fff;
+        }
+
+        #replayVideoBtn {
+            background: #10b981;
+            color: #fff;
+        }
+
+        #prevVideoBtn:hover { background: #d1d5db; }
+        #nextVideoBtn:hover { background: #1d4ed8; }
+        #replayVideoBtn:hover { background: #059669; }
+
+        /* ---- Progress Dots ---- */
+        #videoDots {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin: 12px 0 4px;
+            flex-wrap: wrap;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #d1d5db;
+            transition: background 0.3s;
+        }
+
+        .dot.active {
+            background: #2563eb;
+        }
+
+        .dot.done {
+            background: #10b981;
+        }
+
+        /* ---- Unknown Words Banner ---- */
+        #unknownWordsBanner {
+            background: #fffbeb;
+            border: 1px solid #fcd34d;
+            border-radius: 10px;
+            padding: 14px 18px;
+            margin-top: 16px;
+            font-size: 14px;
+            color: #92400e;
+            display: none;
+        }
+
+        #unknownWordsBanner i {
+            margin-right: 6px;
+        }
+
+        /* ---- Progress counter ---- */
+        #videoCounter {
+            text-align: center;
+            font-size: 13px;
+            color: #6b7280;
+            margin-top: 6px;
+        }
+    </style>
+</head>
+
+<body>
 
 {% include "include/navbar.html" %}
 
@@ -14,15 +173,15 @@
 
 
 <!-- ============================== -->
-<!-- Hero Section -->
+<!-- Hero Section                   -->
 <!-- ============================== -->
 
 <section class="hero">
 
-    <h1>{{ greeting }} 👋</h1>
+    <h1>{{ greeting }}, {{ name }} 👋</h1>
 
     <p>
-        Convert your speech into sign language instantly.
+        Convert your speech into Indian Sign Language instantly.
     </p>
 
     <div class="buttons">
@@ -41,31 +200,41 @@
 
 
 <!-- ============================== -->
-<!-- Recognized Speech -->
+<!-- Recognized Speech              -->
 <!-- ============================== -->
 
 <section class="speech-box">
 
-    <h2>Recognized Speech</h2>
+    <h2><i class="fa-solid fa-waveform-lines" style="margin-right:8px;"></i>Recognized Speech</h2>
 
-    <p id="speech">
-        Your speech will appear here...
+    <p id="speech" style="font-size:1.1rem;color:#374151;margin-top:10px;">
+        Your speech will appear here after recording...
     </p>
 
 </section>
 
 
 <!-- ============================== -->
-<!-- Sign Language Output -->
+<!-- Processed Words                -->
+<!-- ============================== -->
+
+<div id="processedWordsSection">
+    <h3><i class="fa-solid fa-tags" style="margin-right:6px;"></i>Matched Sign Words</h3>
+    <div class="word-chips" id="wordChips"></div>
+</div>
+
+
+<!-- ============================== -->
+<!-- Sign Language Output           -->
 <!-- ============================== -->
 
 <section class="output">
 
-    <h2>Sign Language Output</h2>
+    <h2><i class="fa-solid fa-hand" style="margin-right:8px;"></i>Sign Language Output</h2>
 
-    <div class="videos" id="videos">
+    <div id="videos">
 
-        <p id="sign-message">
+        <p id="sign-message" style="color:#9ca3af;">
             Your sign language translation will appear here...
         </p>
 
@@ -75,37 +244,7 @@
 
 
 <!-- ============================== -->
-<!-- Recent History -->
-<!-- ============================== -->
-
-<section class="history">
-
-    <h2>Recent History</h2>
-
-    <table>
-
-        <tr>
-            <th>Speech</th>
-            <th>Date</th>
-        </tr>
-
-        <tr>
-            <td>Hello Everyone</td>
-            <td>Today</td>
-        </tr>
-
-        <tr>
-            <td>Thank You</td>
-            <td>Yesterday</td>
-        </tr>
-
-    </table>
-
-</section>
-
-
-<!-- ============================== -->
-<!-- Footer -->
+<!-- Footer                         -->
 <!-- ============================== -->
 
 <footer>
@@ -116,3 +255,6 @@
 
 
 <script src="{% static 'js/home.js' %}"></script>
+
+</body>
+</html>
