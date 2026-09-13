@@ -59,6 +59,13 @@
 
         <h2><i class="fa-solid fa-video"></i> Add Sign Language Video</h2>
 
+        {% if upload_error %}
+        <div style="background:#fee2e2;color:#dc2626;border:1px solid #fca5a5;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:14px;display:flex;align-items:center;gap:10px;">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            {{ upload_error }}
+        </div>
+        {% endif %}
+
         <form method="POST" enctype="multipart/form-data" class="upload-form">
 
             {% csrf_token %}
@@ -89,6 +96,7 @@
         </form>
 
     </section>
+
 
     <!-- Video List -->
     <section class="video-list">
