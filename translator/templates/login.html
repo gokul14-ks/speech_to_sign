@@ -130,6 +130,14 @@
 
                         </div>
 
+                        <!-- Error Message -->
+                        {% if error %}
+                        <div class="error-box" id="errorBox">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                            {{ error }}
+                        </div>
+                        {% endif %}
+
                         <!-- Login Button -->
                        
                         <button
